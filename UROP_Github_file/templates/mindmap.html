@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Question</title>
+
+    <!-- Bootstrap core CSS -->
+    <!--<link href="../static/Signin Template for Bootstrap_files/bootstrap.min.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <!--
+    <link href="../static/Signin Template for Bootstrap_files/signin.css" rel="stylesheet">
+    <link rel="stylesheet" crossorigin="anonymous" href="../static/Signin Template for Bootstrap_files/main.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style media="screen">
+        .slidercontainer{
+        width: 50%;
+        margin-left: auto!important;
+        margin-right: auto!important;
+      }
+        .slider{
+          width:100%;
+          opacity: 0.7;
+          height: 50px; /* Specified height */
+          background: #d3d3d3;
+        }
+
+        .slider.slider-selection{
+          background: #BABABA;
+        }
+
+        .slider:hover{
+          opacity: 1;
+        }
+    </style>
+</head>
+
+  <body class="text-center">
+    <!-- <p> hello </p> -->
+    <form id="form1" method="post" class="jumbotron text-center">
+      <p>{{ question_id }}. {{tuple_of_qn[1]}}</p>
+      <select name="cars" size="4" required>
+        <option value="1">{{tuple_of_qn[2]}}</option>
+        <option value="2">{{tuple_of_qn[3]}}</option>
+        <option value="3">{{tuple_of_qn[4]}}</option>
+        <option value="4">{{tuple_of_qn[5]}}</option>
+      </select>
+      <br>
+      <p id='demo'></p>
+      <div class="slidercontainer" style="center;">
+        <input type="range" id="myRange" min="1" max="10" value="1" class="slider">
+      </div>
+      <script type="text/javascript">
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = "Score: " +slider.value; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+          output.innerHTML = "Score: " + this.value;
+        }
+      </script>
+      <br>
+    <button type="submit" form="form1" value="Submit">Submit</button>
+    </form>
+  </body>
+</html>

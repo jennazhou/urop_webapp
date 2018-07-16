@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+{% block body %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <style media="screen">
+      .error {
+        background-color: #bec4ce;
+        color: #cc0000;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <header id = "main-header">
+    <h1 style="font-size:44px; font-weight:bold; color: #cc0000;">Welcome!</h1>
+  </header>
+  <body>
+    <div class="container">
+      <h4>Register</h4>
+      <br>
+      {% from "_formhelper.html" import render_field %}
+      <form method=post action='/register'>
+      {% if error %}
+          <p class="error"><strong>Error: {{ error }}</strong></p>
+      {% endif%}
+        <dl>
+          <div class="form-group">
+              {{render_field(form.email, class_="form-control", placeholder="Email address")}}
+          </div>
+          <div class="form-group">
+              {{render_field(form.password, class_="form-control", placeholder="Please enter your password" )}}
+          </div>
+          <div class="form-group">
+              {{render_field(form.confirm, class_="form-control", placeholder="Please re-enter your password" )}}
+          </div>
+          <div class="form-group">
+              {{render_field(form.age, class_="form-control", min=0, max=100)}}
+          </div>
+          <div class="form-group" >
+              {{render_field(form.birth_cty, class_="form-control")}}
+          </div>
+          <div class="form-group">
+              {{render_field(form.res_cty, class_="form-control")}}
+          </div>
+        </dl>
+        <br>
+        <br>
+         <input type="submit" name="register" class="btn btn-info btn-block" value="Register" style="font-size: 20px; font-weight:bold">
+         <input type="button" name="home" class="btn btn-outline-info btn-block" value="Return to Home"  style="font-size: 18px;" onclick="window.location.href='/'">>
+      </form>
+    </div>
+  </body>
+</html>
+
+{% endblock %}
