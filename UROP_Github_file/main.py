@@ -18,7 +18,7 @@ app = Flask(__name__)
 '''
 Problems yet to be solved:
    - the duration of session
-   - logout 
+   - logout
    - homepage design
 '''
 
@@ -36,14 +36,14 @@ def do_admin_login():
             password = request.form['password']
             #all_users  # this is the encrypted password stored in the database
             #the data retrieved from the database is presented in a tuple, therefore need an index to index the number
-            if sha256_crypt.verify(password, u_db.psw_retrieval(username)[0]): 
+            if sha256_crypt.verify(password, u_db.psw_retrieval(username)[0]):
                 session['logged_in'] = True;
                 session['username'] = username;
                 return redirect(url_for('home'))
             else:
                 error = "The username or/and password is wrong. Please try again."
-        return render_template('login.html', error=error)    
-    
+        return render_template('login.html', error=error)
+
     except Exception as e:
         error = "The username or/and password is wrong. Please try again."
         return render_template('login.html', error=error)
@@ -108,8 +108,9 @@ def question(qn, max_qn):
         conn.close()
         current_qn = int(qn) + 1
         if current_qn == max_qn:
-            return ("You are done!")
+            return ("You are done YAY!")
         return redirect('/question/' + str(max_qn)+'/' + str(current_qn))
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12) #need this for session to work
