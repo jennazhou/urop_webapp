@@ -31,14 +31,7 @@ def psw_retrieval(username):
     c.execute("SELECT psw FROM users WHERE email = ?", (username, ))
     psw = c.fetchone()
     return psw
-
-#def all_users_usernames():
-#    conn = sqlite3.connect('users.db')
-#    c = conn.cursor()
-#    c.execute("SELECT email FROM users")
-#    all_usernames = c.fetchall()
-#    return all_usernames
-
+'''
 def add_column():
     c.execute("ALTER TABLE users ADD COLUMN user_input TEXT")
     conn.commit()
@@ -51,14 +44,17 @@ def drop_table():
     c.execute("DROP TABLE users")
     c.close()
     conn.close()
-    
-'''
-def display_table():
-    c.execute("PRAGMA table_info(tablename")
-    print(c.fetchall())
-    
-display_table()
 '''
 
+    
+def inser_user_input(task):
+    conn = sqlite3.connect('users.db') #this connects to a database. If the database doesnt exist, it will create a new database and then connects to it from the second time onwards
+    c = conn.cursor()
+    c.execute("UPDATE users SET user_input=? WHERE email=?", task)
+    conn.commit() 
+    c.close()
+    conn.close()
+    
+    
 print(psw_retrieval("asd"))
 print(psw_retrieval("a@c.com"))

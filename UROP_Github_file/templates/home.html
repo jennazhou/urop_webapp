@@ -7,7 +7,8 @@
   <body>
     {% block body %}
     {% if session['logged_in'] %}
-    <p>Hello Boss! Welcome Back!</p>
+    <p>Hello {{session['username']}}! Welcome Back!</p>
+    <p><a href="/question/1">Let's get started!</p>
     {% else %}
     <h3>Are you ready for it?</h3>
     <ul>

@@ -17,8 +17,9 @@ app = Flask(__name__)
 
 '''
 Problems yet to be solved:
+   - insert the score into the correct username
    - the duration of session
-   - logout
+   - logout 
    - homepage design
 '''
 
@@ -36,14 +37,14 @@ def do_admin_login():
             password = request.form['password']
             #all_users  # this is the encrypted password stored in the database
             #the data retrieved from the database is presented in a tuple, therefore need an index to index the number
-            if sha256_crypt.verify(password, u_db.psw_retrieval(username)[0]):
+            if sha256_crypt.verify(password, u_db.psw_retrieval(username)[0]): 
                 session['logged_in'] = True;
                 session['username'] = username;
                 return redirect(url_for('home'))
             else:
                 error = "The username or/and password is wrong. Please try again."
-        return render_template('login.html', error=error)
-
+        return render_template('login.html', error=error)    
+    
     except Exception as e:
         error = "The username or/and password is wrong. Please try again."
         return render_template('login.html', error=error)
@@ -92,25 +93,27 @@ def test():
     return render_template('sample.html')
 
 allquestions = qn_db.qn_retrieval(1)
+user_input = {}
 
-@app.route('/question/<max_qn>/<qn>', methods=['GET', 'POST'])
-def question(qn, max_qn):
+@app.route('/question/<qn>', methods=['GET', 'POST'])
+def question(qn):
     if request.method == 'GET':
         return render_template('mindmap.html', question_id = qn, tuple_of_qn = allquestions[int(qn)-1])
     if request.method == 'POST':
+        current_user = session['username']
         #return "submitted"
         car = request.form.get("cars")
-        conn = sqlite3.connect('users.db') #this connects to a database. If the database doesnt exist, it will create a new database and then connects to it from the second time onwards
-        c = conn.cursor()
-        c.execute("INSERT INTO users (user_input) VALUES(?)", (car))
-        conn.commit() #always commit when making modifications, eg. inputing data
-        c.close()
-        conn.close()
+        user_input[str(qn)] = car
+        #conn = sqlite3.connect('users.db') #this connects to a database. If the database doesnt exist, it will create a new database and then connects to it from the second time onwards
+        #c = conn.cursor()
+        #u_db.inser_user_input((car, current_user))
         current_qn = int(qn) + 1
-        if current_qn == max_qn:
-            return ("You are done YAY!")
-        return redirect('/question/' + str(max_qn)+'/' + str(current_qn))
-
+        if current_qn >= 10:
+            return ("You are done!")
+            #c.close()
+            #conn.close()
+            
+        return redirect('/question/' + str(current_qn))
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12) #need this for session to work
