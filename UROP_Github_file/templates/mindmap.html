@@ -35,6 +35,19 @@
         .slider:hover{
           opacity: 1;
         }
+        /* styling the select box */
+        .styled-select.slate {
+           /* height: 34px; */
+           width: 240px;
+        }
+
+        .styled-select.slate select {
+           border: 1px solid #ccc;
+           font-size: 16px;
+           /*height: 34px; */
+           width: 268px;
+        }
+
     </style>
 </head>
 
@@ -51,14 +64,18 @@
     <!-- <p> hello </p> -->
     <form id="form1" method="post" class="jumbotron text-center">
       <p>{{ question_id }}. {{tuple_of_qn[1]}}</p>
+      <button id="sendhelp" onclick="document.getElementById('hintvideo').style.display = 'block'"> Hint </button>
       <p> correct option = {{tuple_of_qn[10]}} </p>
-      <select name="cars" size="4" required>
+      <select name="cars" size="4" required class ="styled-select slate">
         <option value="1">{{tuple_of_qn[2]}}</option>
         <option value="2">{{tuple_of_qn[3]}}</option>
         <option value="3">{{tuple_of_qn[4]}}</option>
         <option value="4">{{tuple_of_qn[5]}}</option>
       </select>
-      <p>{{tuple_of_qn[6]}},{{tuple_of_qn[7]}}, {{tuple_of_qn[8]}}, {{tuple_of_qn[9]}}</p>
+      <p id="hintvideo" style="display:none;">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/{{tuple_of_qn[6]}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </p>
+      <!--<p>{{tuple_of_qn[6]}},{{tuple_of_qn[7]}}, {{tuple_of_qn[8]}}, {{tuple_of_qn[9]}}</p> -->
       <br>
       <p id='demo'></p>
       <div class="slidercontainer" style="center;">
@@ -75,7 +92,7 @@
         }
       </script>
       <br>
-    <button type="submit" form="form1" value="Submit">Submit</button>
+    <button type="submit" form="form1" value="Submit">Next question</button>
     </form>
     {% endif %}
     {% endblock %}
