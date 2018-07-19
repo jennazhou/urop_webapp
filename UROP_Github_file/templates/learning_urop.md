@@ -57,3 +57,6 @@
 - SQLite, a database engine that a DBMS uses as underlying software to make CRUD operations from database/A database engine is the underlying system that a database uses to function.
 - SQLite is like MySQL and SQL Server, which are all database engines, while SQL is a query language used in these databases.
 - SQL can be used for database query in different programming languages with different syntaxes
+- session in Flask is a dictionary.
+- understand the magic behind Message Flashing!!
+- use session to store information for each user

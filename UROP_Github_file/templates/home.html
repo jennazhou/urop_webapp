@@ -3,6 +3,40 @@
   <head>
     <meta charset="utf-8">
     <title>Hello There!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style media="screen">
+      .ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .dummy {
+        margin-top: 100%;
+      }
+
+      .thumbnail {
+      position: absolute;
+      top: 15px;
+      bottom: 0;
+      left: 15px;
+      right: 0;
+      text-align:center;
+      padding-top:calc(50% - 30px);
+      }
+
+      .jumbotron{
+        height: 20px;
+      }
+
+      .jumbotron >li{
+        margin-top: -10px;
+      }
+
+
+    </style>
   </head>
   <body>
     {% block body %}
@@ -10,11 +44,88 @@
     <p>Hello {{session['username']}}! Welcome Back!</p>
     <p><a href="/question/1">Let's get started!</p>
     {% else %}
-    <h3>Are you ready for it?</h3>
-    <ul>
-      <li>About the game</li>
-      <li> <a href="/login">Log in</a></li>
+    <div class="display-3" style="text-align: center;">
+      <p>Are you ready for it?</p>
+    </div>
+    <div class="">
+    {% body block %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <ul class="ul">
+      <div class="jumbotron text-center" onclick="clk1()">
+        <li>About the Game</li>
+      </div>
+      <div id="atg" class="" style="display:none">
+        <div class="container">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+      </div>
+      <script type="text/javascript">
+        function clk1(){
+          $( "#atg" ).toggle("blind")
+        }
+      </script>
+      <div class="jumbotron text-center" onclick="window.location.href='/login'">
+        <li>Let's get started</li>
+      </div>
+      <div class="jumbotron text-center" onclick="clk2()">
+        <li>The Project Behind the Game</li>
+      </div>
+      <div id="proj" class="" style="display:none">
+        <div class="container">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+      </div>
+      <script type="text/javascript">
+        function clk2(){
+          $( "#proj" ).toggle("blind")
+        }
+      </script>
+      <div class="jumbotron text-center" onclick="clk3()">
+        <li> Contact Us for More Information</li>
+      </div>
+      <div id="cont" class="" style="display:none">
+        <div class="container">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+      </div>
+      <script type="text/javascript">
+        function clk3(){
+          $( "#cont" ).toggle("blind")
+        }
+      </script>
     </ul>
+
+<!--
+    <div class="container">
+	    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <div class="dummy"></div>
+          <a href="#x" class="thumbnail purple">Homepage</a>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <div class="dummy"></div>
+          <a href="#x" class="thumbnail purple">View Profile</a>
+        </div>
+        <div class="col-md-3 col-sm-4 col-xs-6">
+          <div class="dummy"></div>
+          <a href="#x" class="thumbnail purple">Something<br>2 lines</a>
+  	   </div>
+         <div class="col-md-3 col-sm-4 col-xs-6">
+          <div class="dummy"></div>
+          <a href="#x" class="thumbnail purple">Something 2 lines</a>
+  	   </div>
+     </div>
+   </div>
+ -->
+
     {% endif %}
     {% endblock %}
   </body>

@@ -50,7 +50,7 @@ def drop_table():
 def inser_user_input(task):
     conn = sqlite3.connect('users.db') #this connects to a database. If the database doesnt exist, it will create a new database and then connects to it from the second time onwards
     c = conn.cursor()
-    c.execute("UPDATE users SET user_input=? WHERE email=?", task)
+    c.execute("UPDATE users SET user_input=?, user_input2=?, user_input3=? WHERE email=?", task)
     conn.commit() 
     c.close()
     conn.close()

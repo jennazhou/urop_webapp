@@ -8,31 +8,38 @@ from flask import Flask, flash, render_template, request, redirect, session, url
 from wtforms import Form, TextField, PasswordField, validators
 from wtforms.fields.html5 import IntegerField, EmailField
 from passlib.hash import sha256_crypt
-import user_database as u_db
 import os
-import sqlite3
+import user_database as u_db
 import question_database as qn_db
 
 app = Flask(__name__)
 
 '''
 Problems yet to be solved:
-   - insert the score into the correct username
+  # - insert the score into the correct username
+  # - debug session['user_input'] ---> use "flash" ????????MAGIC?????
    - the duration of session
    - logout 
    - homepage design
 '''
-
+max_qn = 3
 @app.route('/', methods=['POST', 'GET'])
 def home():
     return render_template('home.html')
 
 @app.route('/login', methods=['POST', 'GET'])
 def do_admin_login():
-    try:
-#   if request.form['password'] == 'password' and request.form['username'] == 'admin':
+   # try:
         error = None
-        if request.method == 'POST':
+        if 'logged_in' not in session:
+            session['logged_in'] = False
+        if request.method == 'POST' and session['logged_in'] == True:
+            if request.form['logout'] == 'logout':
+                session['logged_in'] = False
+                flash('You are logged out now!')
+                return redirect(url_for('home'))
+        
+        elif request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
             #all_users  # this is the encrypted password stored in the database
@@ -43,11 +50,12 @@ def do_admin_login():
                 return redirect(url_for('home'))
             else:
                 error = "The username or/and password is wrong. Please try again."
+        
         return render_template('login.html', error=error)    
     
-    except Exception as e:
-        error = "The username or/and password is wrong. Please try again."
-        return render_template('login.html', error=error)
+   # except Exception as e:
+   #     error = "The username or/and password is wrong. Please try again."
+   #     return render_template('login.html', error=error)
 
 #Cannot import class from another customised module. Can only use your own module
 class RegistrationForm(Form):
@@ -88,33 +96,37 @@ def do_admin_register():
             return render_template('register_short.html', form=form)
 
 
-@app.route('/test')
-def test():
-    return render_template('sample.html')
-
 allquestions = qn_db.qn_retrieval(1)
-user_input = {}
-
+#user_input = list(range(max_qn+1))
 @app.route('/question/<qn>', methods=['GET', 'POST'])
 def question(qn):
     if request.method == 'GET':
         return render_template('mindmap.html', question_id = qn, tuple_of_qn = allquestions[int(qn)-1])
-    if request.method == 'POST':
+    else:
+        if 'user_input' not in session:
+            session['user_input'] = [0 for i in range(max_qn+1)]
         current_user = session['username']
-        #return "submitted"
         car = request.form.get("cars")
-        user_input[str(qn)] = car
-        #conn = sqlite3.connect('users.db') #this connects to a database. If the database doesnt exist, it will create a new database and then connects to it from the second time onwards
-        #c = conn.cursor()
-        #u_db.inser_user_input((car, current_user))
+        session['user_input'][int(qn)-1] = car
         current_qn = int(qn) + 1
-        if current_qn >= 10:
-            return ("You are done!")
-            #c.close()
-            #conn.close()
-            
+        flash(str(session['user_input']))
+        if current_qn > max_qn:
+            #flash("Yay! You are done!")
+            #return str(session['user_input'])
+            session['user_input'][-1] = current_user #since task needs to have current_user at the last place to input into the SQL query, 
+            task = tuple(session['user_input'])
+            #return str(task)
+            u_db.inser_user_input(task)
+            return "congrats youre now smarter than jennnnnnaaa"
+        #if qn == '2':
+        #    return str(session['user_input'])
+        
         return redirect('/question/' + str(current_qn))
+
+
+
 
 if __name__ == "__main__":
     app.secret_key = os.urandom(12) #need this for session to work
     app.run(debug=True, port=4000)
+
