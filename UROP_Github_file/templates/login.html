@@ -32,8 +32,8 @@
 
   <body>
     <!-- Alternative Title -->
-    <div class="display-2" style="text-align: center;">
-      <p>Are you ready for this?</p>
+    <div class="display-3" style="text-align: center;">
+      <p>Are you ready for it?</p>
     </div>
 
     <!-- Original Red Fat Title -->
@@ -46,10 +46,12 @@
    <div class="window">
      {% block body %}
      <h3>Login</h3>
-     {% if session['logged_in'] %}
+    <!-- {% if session['logged_in'] %}
      <p>You're logged in already!</p>
-     <input type="submit" name="logout" value="Log out" class="btn btn-info btn-block" onclick="window.location.href='/logout'">
-     {% else %}
+     <form action="/login" method="post">
+       <button type="submit" name="logout" value="logout" class="btn btn-info">Log out</button>
+     </form>
+     {% else %} -->
      <form action="/login" method="post">
        {% if error %}
         <p class="error"><strong>Error: {{ error }} </strong>
@@ -67,7 +69,7 @@
      </form>
      <br>
       <p> Don't have an account? <a href="/register">Register NOW!</a></p>
-     {% endif %}
+  <!--   {% endif %}  -->
      {% endblock %}
    </div>
   </body>
